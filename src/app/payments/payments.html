@@ -1,0 +1,92 @@
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>FluxPay</h2>
+
+    <ul>
+      <li class="active">Dashboard</li>
+      <li>Payments In</li>
+      <li>Payments Out</li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Header -->
+    <div class="top-bar">
+      <div class="left">
+       <h1>Welcome, {{username}} 👋</h1>
+        <p>Here’s your payment overview</p>
+      </div>
+
+      <div class="right">
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards">
+
+      <div class="card glow">
+        <h3>Total Volume</h3>
+       <p>{{ payments.length || 0 }}</p>
+      </div>
+
+      <div class="card glow success">
+        <h3>Completed</h3>
+        <p>{{ getSuccessCount() }}</p>
+      </div>
+
+      <div class="card glow pending">
+        <h3>Pending</h3>
+        <p>{{ getPendingCount() }}</p>
+      </div>
+
+    </div>
+
+    <!-- Table -->
+    <div class="table glow">
+      <h3>Transactions</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Email</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let p of payments; trackBy: trackByFn">
+            <td>{{ p.transactionId }}</td>
+            <td>{{ p.customerName }}</td>
+            <td>{{ p.email }}</td>
+            <td>₹{{ p.amount }}</td>
+            <td>
+              <span 
+                class="status"
+                [ngClass]="p.paymentStatus.toLowerCase()">
+                {{ p.paymentStatus }}
+              </span>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="!payments || payments.length === 0">
+            <td colspan="5" style="text-align:center; opacity:0.6;">
+              No transactions available
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+</div>
